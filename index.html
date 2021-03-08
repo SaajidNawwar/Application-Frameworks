@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAB 02</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    //01	callback
+     function getValue(callback){
+         let value = 0;
+             setTimeout(function (){
+                 value=10;
+                 callback(value);
+             },1000);
+     }
+    
+     getValue(function (value){
+         console.log(value);
+     });
+
+
+    //promise
+    function getValue(){
+        let value = 0;
+        return new Promise(function (resolve, reject){
+            setTimeout(function (){
+                value=50;
+                resolve(value);
+            },1000);
+        });
+    }
+
+    function getNewValue(value){
+        return new Promise(function (resolve,reject){
+            setTimeout(function (){
+                resolve(value*100);
+            },1000);
+        });
+    }
+
+    getValue().then(function (value){
+        return getNewValue(value);
+    }).then(function (value){
+        console.log(value);
+    });
+
+    // 02
+	function Vehicle(type) {​​
+    this.type = type;
+    Vehicle.VehicleCount++;
+	}​​
+
+	Vehicle.prototype.drive = function () {​​
+    console.log(this.type + " is driving");
+	}​​;
+
+	Vehicle.VehicleCount = 0;
+	const vehicle = new Vehicle("Toyota");
+	console.log(vehicle.type);
+	vehicle.drive();
+	function  Car(type) {​​
+    Vehicle.call(this, type);
+	}​​
+	Car.prototype = Object.create(Vehicle.prototype);
+	Car.prototype.constructor = Car;
+	Car.prototype.balanceWheels = function () {​​
+    console.log(this.type + " wheels are balanced");
+	}​​;
+	const car = new Car("Nissan");
+	console.log(car.type);
+	car.drive();
+	car.balanceWheels();
+	console.log(Vehicle.VehicleCount);
+	
+	//3. Use arrow functions.?????????????????
+    //***arrow function:-  this "=>" symbol is used instead of function key word that is known as arrow function
+
+
+
+function getArrowFuncvalue(){
+    let values=9;
+    return new Promise( (resolve,reject) =>{ //arrow function is used here
+        setTimeout(function (){
+            values=30;
+            resolve(values);
+        },3000)
+    });
+}
+
+
+function getnewArrow(values){
+    return new  Promise( (resolve, reject) =>{  // arrow function is used
+        setTimeout(function (){
+            resolve(values*100);
+
+        },2500);
+
+    });
+}
+
+async function printB(){  //note:- async functions are supposed to written in the promises and while callback wont work with async
+    //or await.
+    let val=await  getArrowFuncvalue(); //this getwaitvalue() is a promise so awaits works
+    val= await getnewArrow(val); //this getwaitvalue() is a promise so awaits works
+
+   return val;
+}
+
+printB().then(val => console.log(val)); // prints 3000(30*100) as output and we have used arrow function and since its a single
+                                        // statements we can omit the curly bracket but if it had multiple statements we should
+                                        // have used the curly bracket in this piece of code
+                                        //Note:-  IN a single statement the return statement will automatically happen but if
+                                        // we used curly bracket we should code the return statement.
+
+
+//-----------------------------------------another example for arrow function-----------------------------------------
+
+        const persons ={
+
+            organization: 'science',
+            people:['jane','goze'],
+            display:function (){
+                this.people.forEach(function (valz){
+                    //console.log(this);
+                    console.log(valz,this.organization);
+                });
+            }
+        };
+
+        persons.display(); // organization wont print it will show as undefined
+
+
+//===============================================================
+// solution for above undefined using arrow function .............................................////
+
+const personalize ={
+    organization: 'science',
+    people:['jane','goze'],
+    display:function (){
+        this.people.forEach (valz =>{  //used arrow function
+            //console.log(this);
+            console.log(valz,this.organization);
+        });
+    }
+};
+
+    personalize.display();  // since we used arrow function  above in the code this tym undefined will be solved and
+                            // organization ('Science') will be printed
+	
+	//4. Try exercise 1 with async/await.
+
+function getwaitvalue(){
+    let values=4;
+    return new Promise(function (resolve,reject){ //promise object is created here (promise is an object)
+        setTimeout(function (){
+            values=20;
+            resolve(values);
+        },2000)
+    });
+}
+
+
+function getnewWaitval(values){
+    return new  Promise(function (resolve, reject){
+        setTimeout(function (){
+            resolve(values*100);
+
+            },2000);
+
+    });
+}
+
+async function print(){  //note:- async functions are supposed to written in the promises and while callback wont work with async
+                         //or await.
+    let val=await  getwaitvalue(); //this getwaitvalue() is a promise so, awaits works
+    val= await getnewWaitval(val); //this getwaitvalue() is a promise so, awaits works
+
+    console.log(val); // will output 2000(20*100)
+}
+
+print();
+
+//Note :- //In virtually these codes are will give a look like happens as synchronous but internally these
+        // happens as Asynchronous
+
+
+//--------------------------------------------------------------------
+
+
+
+</script>
+</body>
+</html>
