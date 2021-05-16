@@ -1,0 +1,35 @@
+//Question 3db.getCollection('test').insertOne({
+"name": "John",
+"dateOfBirth": "1990-01-01T00:00:00Z",
+"subjects": ["Application frameworks", "Computer architecture"]
+})
+//Question 4
+db.getCollection('test').find({name: "John"})
+//Question 5
+db.getCollection('test').find({_id: ObjectId("6040da76487be0112bdd4c2a")})
+//Question 6
+db.getCollection('test').update({name: "John"},{ $addToSet: { subjects: "Distributed Computing" } })
+
+
+//Question 7
+db.getCollection('test').insertMany([
+{
+    "name": "Smith",
+    "dateOfBirth": "1990-01-15T00:00:00Z",
+    "subjects": ["Application frameworks", "Computer architecture"],
+    "isActive": true
+},
+{
+    "name": "Jane",
+    "dateOfBirth": "1990-02-15T00:00:00Z",
+    "subjects": ["Application frameworks", "Computer architecture"],
+    "isActive": false
+}
+]);
+
+//Question 7
+db.getCollection('test').update({name: "Smith", isActive: true },{ $addToSet: { subjects: "Distributed Computing" } })//Question 8
+db.getCollection('test').update({name: "John"},{ $set: { isActive: false } })
+//Question 9
+db.getCollection('test').remove({name: "John"})
+
