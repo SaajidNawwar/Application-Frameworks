@@ -1,26 +1,36 @@
-const uuid1 = require('uuid');
+const UUID = require('uuid');
+const {getAll, getById, removeById, save, updateById} = require('../dal/posts.dao');
 
-const posts = new Map();
 
 
-const createPost = ({name, description}) => {
+const createPost = async ({name, description}) => {
     const post = {
-        id: uuid1.v4(),
+        id: UUID.v4(),
         name,
         description,
-        datePosted: new Date()
-    }
+        postedDate: new Date()
+     }
 
-    posts.set(post.id, post);
-    return post;
+    return await save(post);
 }
 
-const getPosts = () => {
-    return [...posts.values()];
+const getPosts = async () => {
+    return await getAll();
 }
 
-const getPost = id => {
-    return posts.get(id);
+const getPost = async id => {
+    return await getById(id);
 }
 
-module.exports = { createPost, getPosts, getPost };
+const deletePost = async id => {
+    return await removeById(id);
+}
+
+const updatePost = async (id, post) => {
+    let name = post.name;
+    let description = post.description;
+    let postedDate = post.postedDate; 
+    return await updateById(id,{name, description, postedDate});
+}
+
+module.exports = { createPost, getPosts, getPost , deletePost , updatePost };
